@@ -13,5 +13,7 @@ Em resumo, o web scraping é uma técnica útil para obter informações sobre f
 
 - [FUNDS EXPLORER](https://www.fundsexplorer.com.br/) - Funcionando!
 - [YAHOO FINANCE](https://finance.yahoo.com/) - Funcionando!
-- [GOOGLE FINANCE](https://www.google.com/finance/) - Em construção!
+- [GOOGLE FINANCE](https://www.google.com/finance/) - Funcionando!
 - [INFOMONEY](https://www.infomoney.com.br/) - Em construção!
+- [STATUS INVEST](https://statusinvest.com.br/) - Funcionando!
+- [INVESTIDOR10](https://investidor10.com.br/) - Não funciona!
