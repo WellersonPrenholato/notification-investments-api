@@ -18,7 +18,7 @@ class FundsExplorer:
         soup = BeautifulSoup(response.text, 'html.parser')
         
         quote_element = []            
-        for item in soup.find_all('span', attrs={'class': ['price', 'percentage negative', 'indicator-value']}):
+        for item in soup.find_all('span', attrs={'class': ['price', 'percentage positive', 'percentage negative', 'indicator-value']}):
             quote_element.append(item.text.replace('\n', ' ').strip())
             
         dict_payload = {
