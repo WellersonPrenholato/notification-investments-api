@@ -2,22 +2,6 @@
 import requests
 from bs4 import BeautifulSoup
 
-def union_dict_list (fii_values:list):
-    dict_payload = {
-            "Liquidez Diária":0,
-            "Último Rendimento":0,
-            "Dividend Yield":0,
-            "Patrimônio Líquido":0,
-            "Valor Patrimonial":0,
-            "Rentab. no mês":0,
-            "P/VP":0
-        }
-
-    # for key, value in zip(dict_payload.keys(), fii_values):
-    #     dict_payload[key] = value
-    #     print(f"{key}:{value}")
-        
-    return dict_payload
 
 def get_fii_quote(fii_id:str):
     headers = {
@@ -27,7 +11,12 @@ def get_fii_quote(fii_id:str):
     
     url = f'https://statusinvest.com.br/fundos-imobiliarios/{fii_id}/'
     response = requests.get(url, headers=headers)
-    print(response)
+    # print(response)
+    
+    if response.status_code != 200:
+        print(f"Erro ao acessar a página: {response.status_code}")
+        return None
+
     soup = BeautifulSoup(response.text, 'html.parser')
 
     quote_element = []
@@ -39,22 +28,36 @@ def get_fii_quote(fii_id:str):
             quote_element.append(valor.text.replace('\n', ' ').strip())
 
     # print(f"QUOTE: {quote_element}")
+    if len(quote_element) > 0:
+        valor_cota = "R$" + str(quote_element[0])
+    else:
+        valor_cota = "Valor não disponível"
+
+    if len(quote_element) > 6:
+        p_vp = str(quote_element[6])
+    else:
+        p_vp = "P/VP não disponível"
+
     informacoes_fundo = {
-        'Valor da Cota': "R$"+str(quote_element[0]),
-        'P/VP': str(quote_element[6]),
+        'Valor da Cota': valor_cota,
+        'P/VP': p_vp,
     }
 
     return informacoes_fundo
 
-# def imprime_dict(dict_values: dict):
-#     for chave, valor in dict_values.items():
-#         print(chave, ":", valor)
+def imprime_dict(dict_values: dict):
+    for chave, valor in dict_values.items():
+        print(chave, ":", valor)
 
 if __name__ == "__main__":
 
     fii_string = input("Insira o identificador do FII: ")
     dict_a = {}
     quote = get_fii_quote(fii_string)
-    print(quote)
-    # dict_a = union_dict_list(quote)
-    # imprime_dict(dict_a)
+    
+    print("*** PESQUISA STATUS INVEST ***")
+    if quote is not None and len(quote) >= 1:
+        print(f"O valor atual do {fii_string.upper()}")
+        imprime_dict(quote)
+    else:
+        print(f"Não foi possível obter o valor do {fii_string.upper()}")
