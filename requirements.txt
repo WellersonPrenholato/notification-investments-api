@@ -1,2 +1,8 @@
-beautifulsoup4
+#beautifulsoup4
+#pywhatkit
+#webdriver-manager
+# selenium
 requests
+python-dotenv
+pyTelegramBotAPI
+logging

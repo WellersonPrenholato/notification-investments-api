@@ -1,7 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
 
-
 def get_fii_quote(fii_id:str):
     # headers = {
     #     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36',
@@ -21,20 +20,20 @@ def get_fii_quote(fii_id:str):
     quote_element = []
     for item in soup.find_all('div', attrs={'class': 'YMlKec fxKbKc'}):
         quote_element.append(item.text.replace('\n', ' ').strip())
-        
+
     return quote_element
 
-def imprime_dict(dict_values: dict):
-    for chave, valor in dict_values.items():
-        print(chave, ":", valor)
-
+def main(fii_name: str):
+    quote = get_fii_quote(fii_name)
+    
+    if quote is not None and len(quote) >= 1:
+        quote[0] = quote[0].replace("R$", "")
+        return fii_name.upper(), quote[0] # (f"O VALOR DO FII *{fii_name.upper()}*: {quote[0]}")
+    else:
+        return fii_name.upper(), 0 #(f"Não foi possível obter o valor do {fii_name.upper()}")
+    
 
 if __name__ == "__main__":
-    fii_string = input("Insira o identificador do FII: ")
-    dict_a = {}
-    quote = get_fii_quote(fii_string)
-    print("*** PESQUISA GOOGLE ***")
-    if quote is not None and len(quote) >= 1:
-        print(f"O valor atual do {fii_string.upper()}: {quote[0]}")
-    else:
-        print(f"Não foi possível obter o valor do {fii_string.upper()}")
+    valor1, valor2 = main("MXRF11")
+    
+    print(f"{valor1} -- {valor2}")
